@@ -9,18 +9,16 @@ def memory_pages_posts_repository(page):
 
 
 @pytest.mark.asyncio
-async def test_get_posts_from_page(memory_pages_posts_repository, user):
-    posts = await memory_pages_posts_repository.get_posts_from_page(user.id)
+async def test_get_info_about_posts(memory_pages_posts_repository, user):
+    posts = await memory_pages_posts_repository.get_info_about_posts(user_id=user.id)
 
     assert type(posts) == list
     assert len(posts) == 2
 
 
 @pytest.mark.asyncio
-async def test_get_follower_requests_from_page(memory_pages_posts_repository, user):
-    follow_requests = (
-        await memory_pages_posts_repository.get_n_follow_requests_from_page(user.id)
-    )
+async def test_get_info_about_pages(memory_pages_posts_repository, user):
+    pages = await memory_pages_posts_repository.get_info_about_pages(user_id=user.id)
 
-    assert type(follow_requests) == int
-    assert follow_requests == 1
+    assert type(pages) == list
+    assert len(pages) == 6

@@ -2,9 +2,11 @@ import pytest
 import asyncio
 
 import pytest_asyncio
+from sqlalchemy.engine import URL
 
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 
+from src.core.settings import TestSettings
 from src.adapters.orm_engines.models import Base
 
 
@@ -12,13 +14,16 @@ from src.adapters.orm_engines.models import Base
 def event_loop():
     policy = asyncio.get_event_loop_policy()
     loop = policy.new_event_loop()
+    asyncio.set_event_loop(loop)
+    loop._close = loop.close
+    loop.close = lambda: None
     yield loop
-    loop.close()
+    loop._close()
 
 
 @pytest.fixture(scope="session")
 def engine():
-    db_url = "postgresql+asyncpg://statistics:statistics@statistics-pg/statistics"
+    db_url = URL.create(**TestSettings().get_db_creds)
     engine = create_async_engine(db_url, echo=True)
     yield engine
     engine.sync_engine.dispose()

@@ -19,7 +19,7 @@ def pages_posts_repository(session):
 
 
 @pytest.mark.asyncio
-async def test_get_posts_from_page(pages_posts_repository, session):
+async def test_get_info_about_posts(pages_posts_repository, session):
     session.add_all(
         [
             UsersORM(id=1, username="username"),
@@ -51,24 +51,14 @@ async def test_get_posts_from_page(pages_posts_repository, session):
     )
     session.commit()
 
-    posts = await pages_posts_repository.get_posts_from_page(user_id=1)
+    posts_info = await pages_posts_repository.get_info_about_posts(user_id=1)
 
-    assert type(posts) == list
-    assert len(posts) == 2
-
-
-@pytest.mark.asyncio
-async def test_get_n_follow_requests_from_pages(pages_posts_repository, session):
-    follow_requests = await pages_posts_repository.get_n_follow_requests_from_page(
-        user_id=1,
-    )
-
-    assert type(follow_requests) == list
-    assert len(follow_requests) == 2
+    assert type(posts_info) == list
+    assert len(posts_info) == 2
 
 
 @pytest.mark.asyncio
-async def test_get_info_about_pages(pages_posts_repository, session):
+async def test_get_info_about_pages(pages_posts_repository):
     pages_info = await pages_posts_repository.get_info_about_pages(user_id=1)
 
     assert type(pages_info) == list

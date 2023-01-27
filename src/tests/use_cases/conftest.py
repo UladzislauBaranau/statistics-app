@@ -1,6 +1,6 @@
 import pytest
 
-from src.domain.page import Page
+from src.domain.page import PageStatistics
 from src.domain.user import User
 from src.domain.post import Post
 
@@ -43,7 +43,7 @@ def second_post():
 
 @pytest.fixture
 def page(user, post, second_post):
-    page = Page(
+    page = PageStatistics(
         id=1,
         page_name="testpage",
         description="testdescription",

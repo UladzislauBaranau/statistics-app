@@ -1,6 +1,6 @@
 from functools import lru_cache
 
-from core import settings
+from src.core import settings
 
 environments = {
     settings.EnvironmentTypes.dev: settings.DevelopmentSettings,

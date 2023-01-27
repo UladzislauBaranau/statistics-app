@@ -25,7 +25,7 @@ class BaseAppSettings(BaseSettings):
     db_port: int = 5432
 
     @property
-    def get_db_creds(self):
+    def get_db_creds(self) -> dict[str, Any]:
         return {
             "drivername": self.db_driver_name,
             "username": self.db_username,
@@ -45,6 +45,7 @@ class BaseAppSettings(BaseSettings):
 
 
 class TestSettings(BaseAppSettings):
+    environment: EnvironmentTypes = Field(EnvironmentTypes.test, env="API_ENVIRONMENT")
     title: str = "Test environment - Statistics service"
 
 
