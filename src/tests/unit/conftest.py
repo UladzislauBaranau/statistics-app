@@ -1,6 +1,6 @@
 import pytest
 
-from src.domain.page import PageStatistics
+from src.domain.page import Page
 from src.domain.user import User
 from src.domain.post import Post
 
@@ -28,28 +28,18 @@ def post():
     post = Post(
         id=1,
         n_likes=33,
+        page_id=1,
     )
     return post
 
 
 @pytest.fixture
-def second_post():
-    second_post = Post(
-        id=2,
-        n_likes=9,
-    )
-    return second_post
-
-
-@pytest.fixture
-def page(user, post, second_post):
-    page = PageStatistics(
+def page():
+    page = Page(
         id=1,
         page_name="testpage",
         description="testdescription",
         uuid="testuuid",
-        page_owner=user,
-        posts=[post, second_post],
         n_follow_requests=1,
         n_followers=2,
     )

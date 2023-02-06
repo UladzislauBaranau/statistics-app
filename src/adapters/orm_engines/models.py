@@ -1,56 +1,66 @@
-from sqlalchemy import Column, ForeignKey, Integer, String, text
-from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import declarative_base, relationship, Mapped, mapped_column
 
 Base = declarative_base()
-
-
-class UsersORM(Base):
-    __tablename__ = "users_user"
-
-    id = Column(Integer, primary_key=True)
-    username = Column(String, nullable=False)
-
-
-class PagesORM(Base):
-    __tablename__ = "pages_page"
-
-    id = Column(Integer, primary_key=True)
-    name = Column(String, nullable=False)
-    uuid = Column(String, nullable=False)
-    description = Column(String, nullable=False)
-    page_owner_id = Column(Integer, ForeignKey("users_user.id", ondelete="CASCADE"))
-    user = relationship("UsersORM", uselist=True)
-
-
-class PostORM(Base):
-    __tablename__ = "pages_post"
-
-    id = Column(Integer, primary_key=True)
-    page_id = Column(Integer, ForeignKey("pages_page.id", ondelete="CASCADE"))
-    pages = relationship("PagesORM", uselist=True)
 
 
 class PostLikeORM(Base):
     __tablename__ = "pages_post_likes"
 
-    id = Column(Integer, primary_key=True)
-    post_id = Column(Integer, ForeignKey("pages_post.id", ondelete="CASCADE"))
-    posts = relationship("PostORM", uselist=True)
-    user_id = Column(Integer, ForeignKey("users_user.id", ondelete="CASCADE"))
-    users = relationship("UsersORM", uselist=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users_user.id"))
+    post_id: Mapped[int] = mapped_column(ForeignKey("pages_post.id"))
+    users: Mapped["UsersORM"] = relationship(back_populates="posts")
+    posts: Mapped["PostORM"] = relationship(back_populates="users")
+
+
+class UsersORM(Base):
+    __tablename__ = "users_user"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    username: Mapped[str] = mapped_column(nullable=False)
+    pages: Mapped[list["PagesORM"]] = relationship()
+    posts: Mapped[list["PostLikeORM"]] = relationship(back_populates="users")
+
+
+class PagesORM(Base):
+    __tablename__ = "pages_page"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    page_owner_id: Mapped[int] = mapped_column(
+        ForeignKey("users_user.id", ondelete="CASCADE"),
+    )
+    name: Mapped[str] = mapped_column(nullable=False)
+    uuid: Mapped[str] = mapped_column(nullable=False)
+    description: Mapped[str] = mapped_column(nullable=False)
+    posts: Mapped[list["PostORM"]] = relationship()
+    followers: Mapped[list["FollowersORM"]] = relationship()
+    follow_requests: Mapped[list["FollowRequestsORM"]] = relationship()
+
+
+class PostORM(Base):
+    __tablename__ = "pages_post"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    page_id: Mapped[int] = mapped_column(
+        ForeignKey("pages_page.id", ondelete="CASCADE"),
+    )
+    users: Mapped[list["PostLikeORM"]] = relationship(back_populates="posts")
 
 
 class FollowersORM(Base):
     __tablename__ = "pages_page_followers"
 
-    id = Column(Integer, primary_key=True)
-    page_id = Column(Integer, ForeignKey("pages_page.id", ondelete="CASCADE"))
-    pages = relationship("PagesORM", uselist=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    page_id: Mapped[int] = mapped_column(
+        ForeignKey("pages_page.id", ondelete="CASCADE"),
+    )
 
 
 class FollowRequestsORM(Base):
     __tablename__ = "pages_page_follow_requests"
 
-    id = Column(Integer, primary_key=True)
-    page_id = Column(Integer, ForeignKey("pages_page.id", ondelete="CASCADE"))
-    pages = relationship("PagesORM", uselist=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    page_id: Mapped[int] = mapped_column(
+        ForeignKey("pages_page.id", ondelete="CASCADE"),
+    )

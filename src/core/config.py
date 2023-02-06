@@ -3,10 +3,9 @@ from functools import lru_cache
 from src.core import settings
 
 environments = {
-    settings.EnvironmentTypes.dev: settings.DevelopmentSettings,
     settings.EnvironmentTypes.test: settings.TestSettings,
+    settings.EnvironmentTypes.dev: settings.DevelopmentSettings,
     settings.EnvironmentTypes.prod: settings.ProductionSettings,
-    settings.EnvironmentTypes.local: settings.LocalSettings,
 }
 
 
