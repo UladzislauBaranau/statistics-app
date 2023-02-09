@@ -38,21 +38,17 @@ class SQLAlchemyPagesPostsRepository(PagesPostsRepository):
             result = await self.db.execute(query)
             pages_info = result.all()
 
-            l_pages_info = []
-            if pages_info:
-                for page in pages_info:
-                    l_pages_info.append(
-                        Page(
-                            id=page[0],
-                            page_name=page[1],
-                            description=page[2],
-                            uuid=page[3],
-                            n_followers=page[4],
-                            n_follow_requests=page[5],
-                        )
-                    )
-
-            return l_pages_info
+            return [
+                Page(
+                    id=page[0],
+                    page_name=page[1],
+                    description=page[2],
+                    uuid=page[3],
+                    n_followers=page[4],
+                    n_follow_requests=page[5],
+                )
+                for page in pages_info
+            ]
 
         except Exception:
             raise DatabaseConnectionException
@@ -70,14 +66,10 @@ class SQLAlchemyPagesPostsRepository(PagesPostsRepository):
             result = await self.db.execute(query)
             posts_info = result.all()
 
-            l_posts_info = []
-            if posts_info:
-                for post in posts_info:
-                    l_posts_info.append(
-                        Post(id=post[0], n_likes=post[1], page_id=post[2])
-                    )
-
-            return l_posts_info
+            return [
+                Post(id=post[0], n_likes=post[1], page_id=post[2])
+                for post in posts_info
+            ]
 
         except Exception:
             raise DatabaseConnectionException

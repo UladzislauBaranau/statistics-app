@@ -14,15 +14,14 @@ class PagesStatisticsManagementUseCase:
             user_id=user_id
         )
 
-        pages_statistics = []
-        for page_info in l_pages_info:
-            posts_on_page = []
-            for post_info in l_posts_info:
-                if page_info.id == post_info.page_id:
-                    posts_on_page.append(post_info)
-
-            pages_statistics.append(
-                Statistics(page=page_info, posts_on_page=posts_on_page)
+        return [
+            Statistics(
+                page=page_info,
+                posts_on_page=[
+                    post_info
+                    for post_info in l_posts_info
+                    if page_info.id == post_info.page_id
+                ],
             )
-
-        return pages_statistics
+            for page_info in l_pages_info
+        ]
