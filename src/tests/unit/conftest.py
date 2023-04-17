@@ -2,7 +2,7 @@ import pytest
 
 from domain.page import Page
 from domain.post import Post
-from domain.user import User
+from domain.user import Role, User
 
 
 @pytest.fixture
@@ -10,6 +10,7 @@ def user():
     user = User(
         id=1,
         username="testuser",
+        role=Role.USER,
     )
     return user
 
@@ -19,6 +20,7 @@ def user_2():
     user_2 = User(
         id=2,
         username="testuser2",
+        role=Role.USER,
     )
     return user_2
 

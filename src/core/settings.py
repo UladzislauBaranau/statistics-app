@@ -17,6 +17,7 @@ class BaseAppSettings(BaseSettings):
     version: str = "0.1.0"
     allowed_hosts: list[str] = ["*"]
     db_driver_name: str = "postgresql+asyncpg"
+    jwt_secret_key: str = Field("secret_key", env="JWT_SECRET_KEY")
     db_host: str = Field("db", env="DATABASE_HOST")
     db_username: str = Field("innotter", env="DATABASE_USERNAME")
     db_password: SecretStr = Field("innotter", env="DATABASE_PASSWORD")

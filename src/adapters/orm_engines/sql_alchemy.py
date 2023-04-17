@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 
 
 class SQLAlchemy:
-    def __init__(self, session_maker):
+    def __init__(self, session_maker) -> None:
         self.session_maker = session_maker
 
     @classmethod
@@ -12,7 +12,7 @@ class SQLAlchemy:
         database_url = URL.create(**db_credentials)
         engine = create_async_engine(database_url, echo=True)
         async_session = sessionmaker(
-            engine,
+            bind=engine,
             class_=AsyncSession,
             expire_on_commit=False,
             autoflush=False,

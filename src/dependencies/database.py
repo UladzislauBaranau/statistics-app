@@ -6,7 +6,7 @@ from core.settings import BaseAppSettings
 
 
 class SQLAlchemyDependency:
-    def __init__(self):
+    def __init__(self) -> None:
         self.sqlalchemy = None
 
     async def __call__(

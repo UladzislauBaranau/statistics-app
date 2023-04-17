@@ -13,6 +13,3 @@ environments = {
 def get_settings() -> settings.BaseAppSettings:
     app_env = settings.BaseAppSettings().environment
     return environments[app_env]()
-
-
-settings = get_settings()
