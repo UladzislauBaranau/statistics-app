@@ -1,3 +1,6 @@
+from fastapi.exceptions import HTTPException
+from starlette.status import HTTP_404_NOT_FOUND
+
 from domain.statistics import Statistics
 from ports.repositories.pages_posts_repository import PagesPostsRepository
 
@@ -14,7 +17,7 @@ class PagesStatisticsManagementUseCase:
             user_id=user_id
         )
 
-        return [
+        statistics = [
             Statistics(
                 page=page_info,
                 posts_on_page=[
@@ -25,3 +28,9 @@ class PagesStatisticsManagementUseCase:
             )
             for page_info in l_pages_info
         ]
+
+        if not len(statistics):
+            raise HTTPException(
+                status_code=HTTP_404_NOT_FOUND, detail="Statistics not found"
+            )
+        return statistics

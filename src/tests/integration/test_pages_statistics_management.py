@@ -1,4 +1,5 @@
 import pytest
+from fastapi.exceptions import HTTPException
 
 from adapters.orm_engines.models import (
     FollowersORM,
@@ -56,12 +57,9 @@ async def test_pages_statistics(pages_statistics_management_usecase, session):
     pages_statistics_user_id_1 = (
         await pages_statistics_management_usecase.get_statistics(user_id=1)
     )
-    pages_statistics_user_id_2 = (
-        await pages_statistics_management_usecase.get_statistics(user_id=2)
-    )
 
     assert len(pages_statistics_user_id_1) == 2
     assert type(pages_statistics_user_id_1) == list
 
-    assert len(pages_statistics_user_id_2) == 0
-    assert type(pages_statistics_user_id_2) == list
+    with pytest.raises(HTTPException):
+        await pages_statistics_management_usecase.get_statistics(user_id=2)

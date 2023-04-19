@@ -70,10 +70,10 @@ async def get_statistics_for_user(
             },
         },
         404: {
-            "description": "User ID not found",
+            "description": "Statistics not found",
             "content": {
                 "application/json": {
-                    "example": {"detail": "Not found"},
+                    "example": {"detail": "Statistics not found"},
                 },
             },
         },
