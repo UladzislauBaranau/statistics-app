@@ -6,6 +6,26 @@ from domain.user import Role, User
 
 
 @pytest.fixture
+def valid_admin_jwt_secret_key():
+    return {
+        "id": 1,
+        "username": "Admin",
+        "email": "admin@email.com",
+        "role": "A",
+    }
+
+
+@pytest.fixture
+def valid_user_jwt_secret_key():
+    return {
+        "id": 1,
+        "username": "User",
+        "email": "user@email.com",
+        "role": "U",
+    }
+
+
+@pytest.fixture
 def user():
     user = User(
         id=1,

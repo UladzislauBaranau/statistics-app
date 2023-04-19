@@ -36,11 +36,3 @@ class AuthDependency(HTTPBearer):
 
 
 get_token_payload = AuthDependency()
-
-
-def get_user_id(payload: AuthDependency = Depends(get_token_payload)) -> int:
-    return payload.get("id")
-
-
-def get_user_role(payload: AuthDependency = Depends(get_token_payload)) -> str:
-    return payload.get("role")
