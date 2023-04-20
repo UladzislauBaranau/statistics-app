@@ -7,7 +7,7 @@ services:
     platform: linux/x86_64
     build:
       context: ../
-      dockerfile: docker/Dockerfile
+      dockerfile: docker/Dockerfile.local
     volumes:
       - ../src:/src
     ports:
@@ -15,7 +15,7 @@ services:
     environment:
       - API_ENVIRONMENT=${API_ENVIRONMENT}
     healthcheck:
-      test: ["CMD", "curl", "-f", "localhost:8000/healthcheck"]
+      test: [ "CMD", "curl", "-f", "localhost:8000/healthcheck" ]
       interval: 10s
       timeout: 5s
       start_period: 10s
