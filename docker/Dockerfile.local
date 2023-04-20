@@ -3,8 +3,8 @@ FROM python:3.11-alpine as base
 
 WORKDIR /src
 
-COPY ./statistics-app/Pipfile ./
-COPY ./statistics-app/Pipfile.lock ./
+COPY ./Pipfile ./
+COPY ./Pipfile.lock ./
 
 RUN python -m pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir pipenv && \
@@ -23,7 +23,7 @@ COPY --from=base /usr/local/ /usr/local/
 
 WORKDIR $APP_DIR
 
-COPY ./statistics-app/src $APP_DIR
+COPY ./src $APP_DIR
 
 RUN addgroup -S $USER && \
     adduser -S $USER -G $USER  && \
