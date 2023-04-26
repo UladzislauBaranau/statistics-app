@@ -1,6 +1,6 @@
 import pytest
-from fastapi.exceptions import HTTPException
 
+from core.exceptions import PermissionDeniedException
 from use_cases.auth_management import AuthManagementUseCase
 
 
@@ -26,5 +26,5 @@ def test_check_admin_or_moderator_roles(auth_admin_management):
 
 
 def test_fail_check_admin_or_moderator_roles(auth_user_management):
-    with pytest.raises(HTTPException):
+    with pytest.raises(PermissionDeniedException):
         auth_user_management.check_admin_or_moderator_roles

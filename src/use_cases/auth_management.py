@@ -1,6 +1,6 @@
-from fastapi.exceptions import HTTPException
-from starlette.status import HTTP_403_FORBIDDEN
+import jwt
 
+from core.exceptions import AuthorizationException, PermissionDeniedException
 from domain.user import Role
 
 
@@ -18,7 +18,11 @@ class AuthManagementUseCase:
             Role.ADMIN.value,
             Role.MODERATOR.value,
         ):
-            raise HTTPException(
-                status_code=HTTP_403_FORBIDDEN,
-                detail="Permission denied. Only for admin or moderator",
-            )
+            raise PermissionDeniedException
+
+
+def decode_access_token(token: str, jwt_secret_key: str) -> dict:
+    try:
+        return jwt.decode(token, jwt_secret_key, algorithms=["HS256"])
+    except (jwt.ExpiredSignatureError, jwt.DecodeError, jwt.InvalidTokenError):
+        raise AuthorizationException

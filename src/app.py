@@ -1,7 +1,10 @@
 from fastapi import FastAPI
 from fastapi.openapi.utils import get_openapi
 
+from exceptions_handlers import include_exceptions_handlers
+
 app = FastAPI()
+include_exceptions_handlers(app)
 
 
 def custom_openapi():

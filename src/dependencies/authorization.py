@@ -1,12 +1,10 @@
-import jwt
 from fastapi import Depends
-from fastapi.exceptions import HTTPException
 from fastapi.security.http import HTTPAuthorizationCredentials, HTTPBearer
 from starlette.requests import Request
-from starlette.status import HTTP_403_FORBIDDEN
 
 from core.config import get_settings
 from core.settings import BaseAppSettings
+from use_cases.auth_management import decode_access_token
 
 
 class AuthDependency(HTTPBearer):
@@ -16,23 +14,10 @@ class AuthDependency(HTTPBearer):
     async def __call__(
         self, request: Request, settings: BaseAppSettings = Depends(get_settings)
     ) -> dict:
-        try:
-            auth_credentials: HTTPAuthorizationCredentials = await super().__call__(
-                request
-            )
-            return self.decode_access_token(
-                auth_credentials.credentials, settings.jwt_secret_key
-            )
-
-        except (jwt.ExpiredSignatureError, jwt.DecodeError, jwt.InvalidTokenError):
-            raise HTTPException(
-                status_code=HTTP_403_FORBIDDEN, detail="Invalid token or expired token"
-            )
-
-    @staticmethod
-    def decode_access_token(token: str, jwt_secret_key: str) -> dict:
-        decoded_access_token = jwt.decode(token, jwt_secret_key, algorithms=["HS256"])
-        return decoded_access_token
+        auth_credentials: HTTPAuthorizationCredentials = await super().__call__(request)
+        return decode_access_token(
+            auth_credentials.credentials, settings.jwt_secret_key
+        )
 
 
 get_token_payload = AuthDependency()
