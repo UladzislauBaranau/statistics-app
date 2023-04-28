@@ -1,4 +1,5 @@
 from sqlalchemy import distinct, func, select
+from sqlalchemy.exc import SQLAlchemyError
 
 from adapters.orm_engines.models import (
     FollowersORM,
@@ -48,7 +49,7 @@ class SQLAlchemyPagesPostsRepository(PagesPostsRepository):
                 for page in pages_info
             ]
 
-        except Exception:
+        except SQLAlchemyError:
             raise DatabaseConnectionException
 
     async def get_info_about_posts(self, user_id: int) -> list[Post]:
@@ -68,5 +69,5 @@ class SQLAlchemyPagesPostsRepository(PagesPostsRepository):
                 for post in posts_info
             ]
 
-        except Exception:
+        except SQLAlchemyError:
             raise DatabaseConnectionException

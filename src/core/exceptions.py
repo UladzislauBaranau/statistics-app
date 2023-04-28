@@ -1,6 +1,6 @@
 class DatabaseConnectionException(Exception):
-    def __repr__(self):
-        return "Database connection error"
+    def __str__(self):
+        return "Database error"
 
 
 class StatisticsNotFoundException(Exception):

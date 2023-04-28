@@ -10,7 +10,19 @@ from dependencies.usecases_dependencies import (
 from routes.statistics.schema import StatisticsResponse
 from use_cases.pages_statistics_management import PagesStatisticsManagementUseCase
 
-router = APIRouter(prefix="/statistics")
+router = APIRouter(
+    prefix="/statistics",
+    responses={
+        500: {
+            "description": "Internal Server Error",
+            "content": {
+                "application/json": {
+                    "example": {"detail": "Internal server error"},
+                },
+            },
+        }
+    },
+)
 
 
 @router.get(
