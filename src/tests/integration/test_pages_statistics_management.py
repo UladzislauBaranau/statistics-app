@@ -10,6 +10,7 @@ from adapters.orm_engines.models import (
 from adapters.repositories.sqlalchemy_pages_posts_repository import (
     SQLAlchemyPagesPostsRepository,
 )
+from core.exceptions import StatisticsNotFoundException
 from use_cases.pages_statistics_management import PagesStatisticsManagementUseCase
 
 
@@ -56,12 +57,9 @@ async def test_pages_statistics(pages_statistics_management_usecase, session):
     pages_statistics_user_id_1 = (
         await pages_statistics_management_usecase.get_statistics(user_id=1)
     )
-    pages_statistics_user_id_2 = (
-        await pages_statistics_management_usecase.get_statistics(user_id=2)
-    )
 
     assert len(pages_statistics_user_id_1) == 2
     assert type(pages_statistics_user_id_1) == list
 
-    assert len(pages_statistics_user_id_2) == 0
-    assert type(pages_statistics_user_id_2) == list
+    with pytest.raises(StatisticsNotFoundException):
+        await pages_statistics_management_usecase.get_statistics(user_id=3)

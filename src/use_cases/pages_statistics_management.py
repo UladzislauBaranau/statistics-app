@@ -1,3 +1,4 @@
+from core.exceptions import StatisticsNotFoundException
 from domain.statistics import Statistics
 from ports.repositories.pages_posts_repository import PagesPostsRepository
 
@@ -14,7 +15,7 @@ class PagesStatisticsManagementUseCase:
             user_id=user_id
         )
 
-        return [
+        statistics = [
             Statistics(
                 page=page_info,
                 posts_on_page=[
@@ -25,3 +26,7 @@ class PagesStatisticsManagementUseCase:
             )
             for page_info in l_pages_info
         ]
+
+        if not len(statistics):
+            raise StatisticsNotFoundException
+        return statistics
