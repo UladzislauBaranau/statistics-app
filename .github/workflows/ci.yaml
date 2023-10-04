@@ -8,7 +8,7 @@ env:
 jobs:
   build-docker-image:
     runs-on: ubuntu-latest
-    name: Docker image
+    name: Docker image!!!
 
     steps:
       - name: Checkout
