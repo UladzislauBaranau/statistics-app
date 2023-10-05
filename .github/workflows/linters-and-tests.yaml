@@ -3,8 +3,7 @@ name: Linters & tests
 on:
   workflow_run:
     workflows: [Build & push docker image]
-    types:
-      - completed
+    types: [completed]
   push:
     paths:
       - 'src/**'
