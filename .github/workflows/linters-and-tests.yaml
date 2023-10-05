@@ -1,8 +1,7 @@
-name: Linters and tests
+name: Linters & tests
 
 jobs:
   linters-and-tests:
-    needs: build-docker-image
     runs-on: ubuntu-latest
     name: Linters & tests
 
