@@ -3,14 +3,11 @@ name: ci
 on:
   push:
     paths:
-      - src/**
-      - .github/**
+      - 'src/**'
+      - '.github/**'
   pull_request:
-    branches:
-      - 'master'
-      - 'dev'
      paths:
-      - src/**
+      - 'src/**'
 
 env:
   REGISTRY: ghcr.io
