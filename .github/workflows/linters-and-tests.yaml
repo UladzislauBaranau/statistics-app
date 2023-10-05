@@ -4,11 +4,12 @@ on:
   push:
     paths:
       - 'src/**'
+      - '.github/**'
   pull_request:
     branches:
       - 'master'
       - 'dev'
-     paths:
+    paths:
       - 'src/**'
 
 jobs:
