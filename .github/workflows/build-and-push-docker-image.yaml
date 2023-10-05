@@ -1,4 +1,4 @@
-name: Build
+name: Build and push docker image
 
 on: [push, pull_request]
 
@@ -8,7 +8,7 @@ env:
 jobs:
   build-and-push-docker-image:
     runs-on: ubuntu-latest
-    name: Build & push docker image
+    name: Build and push docker image
 
     steps:
       - name: Checkout
