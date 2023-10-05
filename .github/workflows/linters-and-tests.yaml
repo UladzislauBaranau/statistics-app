@@ -1,9 +1,14 @@
 name: Linters & tests
 
 on:
+  workflow_run:
+    workflows: [Build & push docker image]
+    types:
+      - completed
   push:
     paths:
       - 'src/**'
+      - '.github/**'
   pull_request:
     branches:
       - 'master'
