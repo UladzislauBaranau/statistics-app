@@ -5,7 +5,10 @@ on:
     paths:
       - 'src/**'
   pull_request:
-      paths:
+    branches:
+      - 'master'
+      - 'dev'
+     paths:
       - 'src/**'
 
 jobs:
