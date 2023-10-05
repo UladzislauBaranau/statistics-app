@@ -1,21 +1,14 @@
-name: Build docker image
+name: Build & push docker image
 
-on:
-  push:
-    paths:
-      - 'src/**'
-      - '.github/**'
-  pull_request:
-     paths:
-      - '.github/**'
+on: [push, pull_request]
 
 env:
   REGISTRY: ghcr.io
 
 jobs:
-  build-docker-image:
+  build-and-push-docker-image:
     runs-on: ubuntu-latest
-    name: Docker image
+    name: Build & push docker image
 
     steps:
       - name: Checkout

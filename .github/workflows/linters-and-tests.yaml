@@ -4,10 +4,12 @@ on:
   push:
     paths:
       - 'src/**'
-      - '.github/**'
   pull_request:
-     paths:
-      - '.github/**'
+    branches:
+      - 'master'
+      - 'dev'
+      paths:
+      - 'src/**'
 
 jobs:
   linters-and-tests:
