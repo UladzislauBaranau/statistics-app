@@ -1,26 +1,20 @@
 name: Linters & tests
 
-#on:
-#  workflow_run:
-#    workflows: [Build & push docker image]
-#    types: [completed]
-#  push:
-#    paths:
-#      - 'src/**'
-#      - '.github/**'
-#  pull_request:
-#    branches:
-#      - 'master'
-#      - 'dev'
-#    paths:
-#      - 'src/**'
-
-
 on:
   workflow_run:
     workflows: [Build]
     types: [completed]
-    push:
+  push:
+    paths:
+      - 'src/**'
+      - '.github/**'
+  pull_request:
+    branches:
+      - 'master'
+      - 'dev'
+    paths:
+      - 'src/**'
+
 
 jobs:
   on-success:
