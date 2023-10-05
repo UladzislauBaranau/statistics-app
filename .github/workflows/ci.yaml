@@ -3,13 +3,14 @@ name: ci
 on:
   push:
     paths:
-      - '**.py'
+      - src/**
+      - .github/**
   pull_request:
     branches:
       - 'master'
       - 'dev'
      paths:
-      - '**.py'
+      - src/**
 
 env:
   REGISTRY: ghcr.io
