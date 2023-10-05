@@ -18,8 +18,8 @@ on:
 jobs:
   linters-and-tests:
     runs-on: ubuntu-latest
-    name: Linters & tests
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    name: Linters & tests
 
     services:
       statistics-pg:
