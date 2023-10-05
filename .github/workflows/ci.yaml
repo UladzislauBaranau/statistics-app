@@ -1,6 +1,15 @@
 name: ci
 
-on: [ push, pull_request ]
+on:
+  push:
+    paths:
+      - '**.py'
+  pull_request:
+    branches:
+      - 'master'
+      - 'dev'
+     paths:
+      - '**.py'
 
 env:
   REGISTRY: ghcr.io
@@ -45,6 +54,7 @@ jobs:
         run: |
           rm -rf /tmp/.buildx-cache
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+
   linters-and-tests:
     needs: build-docker-image
     runs-on: ubuntu-latest
