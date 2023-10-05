@@ -19,6 +19,7 @@ jobs:
   linters-and-tests:
     runs-on: ubuntu-latest
     name: Linters & tests
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     services:
       statistics-pg:
