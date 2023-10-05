@@ -8,7 +8,7 @@ name: Linters & tests
 
 on:
   workflow_run:
-    workflows: [Build & push docker image]
+    workflows: [Build]
     types: [completed]
 
 jobs:
