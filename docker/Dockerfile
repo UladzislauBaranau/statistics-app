@@ -1,0 +1,35 @@
+# Temporary image
+FROM python:3.11-alpine as base
+
+WORKDIR /src
+
+COPY ./statistics-app/Pipfile ./
+COPY ./statistics-app/Pipfile.lock ./
+
+RUN python -m pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir pipenv && \
+    pipenv install --dev --system --deploy --skip-lock
+
+# Final image
+FROM python:3.11-alpine
+
+ENV USER=user \
+    APP_DIR=/src \
+    \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+COPY --from=base /usr/local/ /usr/local/
+
+WORKDIR $APP_DIR
+
+COPY ./statistics-app/src $APP_DIR
+
+RUN addgroup -S $USER && \
+    adduser -S $USER -G $USER  && \
+    chown -R $USER:$USER $APP_DIR
+USER $USER
+
+EXPOSE 8000
+
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--reload"]
