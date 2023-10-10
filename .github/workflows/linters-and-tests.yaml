@@ -2,7 +2,7 @@ name: Linters & tests
 
 on:
   workflow_run:
-    workflows: [build-and-push-docker-image]
+    workflows: [Build and push docker image]
     types: [completed]
   push:
     paths:
@@ -22,6 +22,10 @@ jobs:
     if: {{ github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' }}
     steps:
       - run: echo 'The triggering workflow passed'
+      - run: echo '{{ github.event.workflow_run.conclusion == 'success' }}
+#    if: {{ github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' }}
+#    steps:
+#      - run: echo 'The triggering workflow passed'
   on-failure:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'failure' }}
